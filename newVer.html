@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		#canvas1{
+			border: 1px dotted black;
+			width: 1000px;
+			height: 500px;
+		}
+	</style>
+
+	<script>
+
+	var arr = [];
+	var c;
+	var con;
+	var mouseX;
+	var mouseY;
+		
+	window.onload = function(){
+		c = document.getElementById("canvas1");
+		con = c.getContext("2d");
+
+		arr = [
+		{name : 'id1', type : 'rect', reserv : 'free', xn : 30, yn : 30, xk : 80, yk : 50, color : 'blue'},
+		{name : 'id2', type : 'rect', reserv : 'reserv', xn : 30, yn : 120, xk : 80, yk : 50, color : 'red'},
+		{name : 'id3', type : 'rect', reserv : 'free', xn : 30, yn : 210, xk : 80, yk : 50, color : 'blue'},
+		{name : 'id4', type : 'rect', reserv : 'free', xn : 30, yn : 300, xk : 80, yk : 50, color : 'blue'},
+		{name : 'id5', type : 'rect', reserv : 'reserv', xn : 30, yn : 390, xk : 80, yk : 50, color : 'red'},
+
+		{name : 'id6', type : 'rect', reserv : 'free', xn : 200, yn : 30, xk : 80, yk : 50, color : 'blue'},
+		{name : 'id7', type : 'rect', reserv : 'free', xn : 200, yn : 120, xk : 80, yk : 50, color : 'blue'},
+		{name : 'id8', type : 'rect', reserv : 'reserv', xn : 200, yn : 210, xk : 80, yk : 50, color : 'red'},
+		{name : 'id9', type : 'rect', reserv : 'reserv', xn : 200, yn : 300, xk : 80, yk : 50, color : 'red'},
+		{name : 'id10', type : 'rect', reserv : 'free', xn : 200, yn : 390, xk : 80, yk : 50, color : 'blue'},
+
+		{name : 'id11', type : 'rect', reserv : 'reserv', xn : 370, yn : 30, xk : 80, yk : 50, color : 'red'},
+		{name : 'id12', type : 'rect', reserv : 'free', xn : 370, yn : 120, xk : 80, yk : 50, color : 'blue'},
+		{name : 'id13', type : 'rect', reserv : 'reserv', xn : 370, yn : 210, xk : 80, yk : 50, color : 'red'},
+		{name : 'id14', type : 'rect', reserv : 'reserv', xn : 370, yn : 300, xk : 80, yk : 50, color : 'red'},
+		{name : 'id15', type : 'rect', reserv : 'free', xn : 370, yn : 390, xk : 80, yk : 50, color : 'blue'},
+
+		{name : 'id16', type : 'rect', reserv : 'reserv', xn : 540, yn : 30, xk : 80, yk : 50, color : 'red'},
+		{name : 'id17', type : 'rect', reserv : 'free', xn : 540, yn : 120, xk : 80, yk : 50, color : 'blue'},
+		{name : 'id18', type : 'rect', reserv : 'free', xn : 540, yn : 210, xk : 80, yk : 50, color : 'blue'},
+		{name : 'id19', type : 'rect', reserv : 'free', xn : 540, yn : 300, xk : 80, yk : 50, color : 'blue'},
+		{name : 'id20', type : 'rect', reserv : 'free', xn : 540, yn : 390, xk : 80, yk : 50, color : 'blue'},
+
+		{name : 'id21', type : 'rect', reserv : 'reserv', xn : 710, yn : 30, xk : 80, yk : 50, color : 'red'},
+		{name : 'id22', type : 'rect', reserv : 'reserv', xn : 710, yn : 120, xk : 80, yk : 50, color : 'red'},
+		{name : 'id23', type : 'rect', reserv : 'reserv', xn : 710, yn : 210, xk : 80, yk : 50, color : 'red'},
+		{name : 'id24', type : 'rect', reserv : 'free', xn : 710, yn : 300, xk : 80, yk : 50, color : 'blue'},
+		{name : 'id25', type : 'rect', reserv : 'reserv', xn : 710, yn : 390, xk : 80, yk : 50, color : 'red'}]
+
+		drawAllElements();
+	};
+
+	function drawAllElements(){
+		for (var i = 0; i < arr.length; i++) {
+			switch (arr[i].type){
+				case 'rect':
+					drawRect(arr[i]);
+				break;
+				case 'arc':
+					drawArc(arr[i]);
+				break;
+			}
+		}
+	};
+
+	function drawRect(obj){
+		con.beginPath();
+		//set color for rectangle
+		con.fillStyle = obj.color;
+		//draw rectangle by two points
+		con.fillRect(obj.xn,obj.yn,obj.xk,obj.yk);
+	};
+
+	function drawArc(obj){
+		console.log(obj);
+		var xxn = obj.xn;
+		console.log(xxn);
+		con.beginPath();
+		//set color for arc
+		con.fillStyle = obj.color;
+		//calculate radius (teorema Pihagora)
+		var radius = Math.sqrt(Math.pow(obj.xk-obj.xn,2)+Math.pow(obj.yk-obj.yn,2));
+		//draw arc
+		con.arc(obj.xn,obj.yn,radius,0,2*Math.PI,false);
+		con.fill();
+	};
+
+	document.onmousedown = function(event){
+		//alert('canvas1');
+		for (var i = 0; i < arr.length; i++) {
+			console.log(arr[i].xn+" "+arr[i].xk+" "+arr[i].yn+" "+arr[i].yk);
+			switch (arr[i].type){
+				case 'rect':
+					if (mouseX > arr[i].xn && mouseX < arr[i].xk + arr[i].xn
+						&& mouseY > arr[i].yn && mouseY < arr[i].yk + arr[i].yn) {
+						alert('This is '+arr[i].type+' with id = '+arr[i].name+" "+arr[i].reserv);
+					}
+				break;
+				case 'arc':
+					//var radius = Math.sqrt(Math.pow(arr[i].xk-arr[i].xn,2)+Math.pow(arr[i].yk-arr[i].yn,2));
+					//console.log(radius);
+					//alert('This is '+arr[i].type+' with id = '+arr[i].name);
+
+				break;
+			}
+		}
+	};
+
+	document.onmousemove = function(event){
+		mouseX = event.clientX - c.offsetLeft;
+		mouseY = event.clientY - c.offsetTop;
+		console.log(mouseX+" "+mouseY);
+	}
+
+	</script>
+</head>
+<body>
+		
+	<canvas id="canvas1" width="1000" height="500">Your browser does not support canvas</canvas>
+	
+		<div>
+			<div style="width:40px; height:40px; background:blue; float:left"></div><p style="float:left; margin:auto 8px;">free</p>
+		<div style="clear:both;"></div>
+		<div style="width:40px; height:40px; background:red; float:left;"></div><p style="float:left; margin:auto 8px;">reserv</p>
+		</div>
+</body>
+</html>
